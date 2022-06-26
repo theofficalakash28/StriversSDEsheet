@@ -1,0 +1,21 @@
+
+    int recur(int idx1,int idx2,string &s1,string &s2,vector<vector<int>>&dp){
+        if(idx1 < 0 || idx2 < 0) return 0;
+        if(dp[idx1][idx2] != -1) return dp[idx1][idx2];
+        
+        //if same reduce both the indexes 
+        if(s1[idx1] == s2[idx2]){
+            return dp[idx1][idx2] = 1 + recur(idx1-1,idx2-1,s1,s2,dp);
+        }
+        //if not same try reducing both the indexes one at a time and give a func call to each of them 
+        return dp[idx1][idx2] = 0 + max(recur(idx1-1,idx2,s1,s2,dp),recur(idx1,idx2-1,s1,s2,dp));
+    }
+    int longestPalindromeSubseq(string s) {
+        int n = s.size();
+        string s1 = s;
+        reverse(s.begin(),s.end());
+        vector<vector<int>>dp(n,vector<int>(n,-1));
+        return recur(n-1,n-1,s1,s,dp);
+    }
+    
+    
