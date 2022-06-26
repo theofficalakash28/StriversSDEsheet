@@ -1,0 +1,22 @@
+
+    int LCS(int idx1,int idx2,string &word1,string &word2,vector<vector<int>>&dp){
+        if(idx1 < 0 || idx2 < 0) return 0;
+        
+        if(dp[idx1][idx2] != -1) return dp[idx1][idx2];
+        if(word1[idx1] == word2[idx2]) return dp[idx1][idx2] = 1 + LCS(idx1-1,idx2-1,word1,word2,dp);
+        return dp[idx1][idx2] = 0 + max(LCS(idx1-1,idx2,word1,word2,dp),LCS(idx1,idx2-1,word1,word2,dp));
+    }
+    int minDistance(string word1, string word2) {
+        //operations can be insertion and deletion 
+        //insertion = len(word1) - LCS(word1,word2);
+        //deletion = len(word2) - LCS(word1,word2);
+        //ops = (insertion + deletion) or = len(word1) + len(word2) - 2*LCS
+        
+        int n = word1.length();
+        int m = word2.length();
+        
+        vector<vector<int>>dp(n,vector<int>(m+1,-1));
+        int lcs = LCS(n-1,m-1,word1,word2,dp);
+        
+        return (n + m - 2*(lcs));
+    }
